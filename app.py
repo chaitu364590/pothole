@@ -4,10 +4,18 @@ import tensorflow as tf
 import os
 import numpy as np
 import PIL
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 ## Page Title
 #st.set_page_config(page_title = "Cats vs Dogs Image Classification")
 st.title("POTHOLE DETECTION")
 st.markdown("---")
+st.caption('HOSTED BY CHAITANYA 201801330017')
 
 model_path='pothole.tflite'
 st.title("Webcam Live Feed")
