@@ -215,7 +215,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
         st.write(AREA)
         st.markdown("__________________________")
     elif class_id==4:
-         Area = w * h
+        Area = w * h
         Area=Area/240
         st.write("Area of a POTHOLE is: %.2f" %Area)
         W = np.array([[Area]])
