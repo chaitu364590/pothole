@@ -66,28 +66,28 @@ while run:
     
 df = pd.read_csv("mlppa.csv")
 
-    y = df['Impulse'].values.reshape(-1, 1)
-    X = df['Area'].values.reshape(-1, 1)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
-    SEED = 42
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = SEED)
-    regressor = LinearRegression()
-    regressor.fit(X_train, y_train)
-    def calc(slope, intercept, Area):
+y = df['Impulse'].values.reshape(-1, 1)
+X = df['Area'].values.reshape(-1, 1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+SEED = 42
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = SEED)
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+def calc(slope, intercept, Area):
     return slope*Area+intercept
 
-    score = calc(regressor.coef_, regressor.intercept_, 9.5)
+score = calc(regressor.coef_, regressor.intercept_, 9.5)
 
-    score = regressor.predict([[9.5]])
+score = regressor.predict([[9.5]])
 
-    y_pred = regressor.predict(X_test)
+y_pred = regressor.predict(X_test)
 
-    mae = mean_absolute_error(y_test, y_pred)
-    mse = mean_squared_error(y_test, y_pred)
-    rmse = np.sqrt(mse)
-    print(f'Mean absolute error: {mae:.2f}')
-    print(f'Mean squared error: {mse:.2f}')
-    print(f'Root mean squared error: {rmse:.2f}')
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+print(f'Mean absolute error: {mae:.2f}')
+print(f'Mean squared error: {mse:.2f}')
+print(f'Root mean squared error: {rmse:.2f}')
 
 
 
