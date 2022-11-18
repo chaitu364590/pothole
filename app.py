@@ -181,7 +181,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     st.write(classes[class_id])
     st.write(classes)
     st.write(class_id)
-    if class_id!=(1 or 8 or 9 or 10 or 11or 12):
+    if class_id!=(1 or 8 or 9 or 10 or 11 or 12):
         Area = w * h
         Area=Area/240
         st.write("Area of a POTHOLE is: %.2f" %Area)
