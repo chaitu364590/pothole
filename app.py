@@ -4,6 +4,11 @@ import tensorflow as tf
 import os
 import numpy as np
 import PIL
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+ 
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -59,7 +64,30 @@ while run:
     F2.image(thresh)
     F3.image(edges)
     
+df = pd.read_csv("mlppa.csv")
 
+    y = df['Impulse'].values.reshape(-1, 1)
+    X = df['Area'].values.reshape(-1, 1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+    SEED = 42
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = SEED)
+    regressor = LinearRegression()
+    regressor.fit(X_train, y_train)
+    def calc(slope, intercept, Area):
+    return slope*Area+intercept
+
+    score = calc(regressor.coef_, regressor.intercept_, 9.5)
+
+    score = regressor.predict([[9.5]])
+
+    y_pred = regressor.predict(X_test)
+
+    mae = mean_absolute_error(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    print(f'Mean absolute error: {mae:.2f}')
+    print(f'Mean squared error: {mse:.2f}')
+    print(f'Root mean squared error: {rmse:.2f}')
 
 
 
@@ -146,10 +174,22 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     xmax = int(xmax * original_image_np.shape[1])
     ymin = int(ymin * original_image_np.shape[0])
     ymax = int(ymax * original_image_np.shape[0])
-
+    w=xmax-xmin
+    h=ymax-ymin
     # Find the class index of the current object
     class_id = int(obj['class_id'])
     st.write(classes[class_id])
+    if class_id!=2:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a EYE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA/6)
+        st.markdown("__________________________")
 
     # Draw the bounding box and label on the image
     color = [int(c) for c in COLORS[class_id]]
@@ -187,6 +227,8 @@ if uploaded_file is not None:
 
     # Show the detection result
     st.image(detection_result_image)
+    
+    
 
  
 
