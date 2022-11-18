@@ -181,7 +181,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     st.write(classes[class_id])
     st.write(classes)
     st.write(class_id)
-    if class_id!=1 or 8 or 9 or 10 or 11 or 12:
+    if class_id==0:
         Area = w * h
         Area=Area/240
         st.write("Area of a POTHOLE is: %.2f" %Area)
@@ -192,6 +192,74 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
         st.subheader("The estimated AREA is :")
         st.write(AREA)
         st.markdown("__________________________")
+    elif class_id==2:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    elif class_id==3:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    elif class_id==4:
+         Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    elif class_id==5:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    elif class_id==6:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    elif class_id==7:
+        Area = w * h
+        Area=Area/240
+        st.write("Area of a POTHOLE is: %.2f" %Area)
+        W = np.array([[Area]])
+        W = W.astype(float)
+        
+        AREA = regressor.predict(W)
+        st.subheader("The estimated AREA is :")
+        st.write(AREA)
+        st.markdown("__________________________")
+    else:
+        print("jkdfn")
 
     # Draw the bounding box and label on the image
     color = [int(c) for c in COLORS[class_id]]
