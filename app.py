@@ -188,7 +188,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
         
         AREA = regressor.predict(W)
         st.subheader("The estimated AREA is :")
-        st.write(AREA/6)
+        st.write(AREA)
         st.markdown("__________________________")
 
     # Draw the bounding box and label on the image
