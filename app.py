@@ -227,7 +227,7 @@ if uploaded_file is not None:
         threshold=DETECTION_THRESHOLD
     )
 
-    # Show the detection result
+    # Show the detection resulthgf
     st.image(detection_result_image)
     
     
