@@ -35,7 +35,7 @@ F4 = st.image([])
 while run:
     camera = cv2.VideoCapture(0)
     _, frame1 =camera.read()
-    frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
+    #frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
     frame2=frame1
     FRAME_WINDOW.image(frame1)
     diff = cv2.absdiff(frame1, frame2)
