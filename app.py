@@ -30,9 +30,10 @@ F1 = st.image([])
 F2 = st.image([])
 F3 = st.image([])
 F4 = st.image([])
-camera = cv2.VideoCapture(0)
+
 
 while run:
+    camera = cv2.VideoCapture(0)
     _, frame1 =camera.read()
     frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
     frame2=frame1
