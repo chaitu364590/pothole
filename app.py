@@ -64,6 +64,8 @@ while run:
     F1.image(frame1)
     F2.image(thresh)
     F3.image(edges)
+    frame1=frame2
+    ret, frame2=camera.read()
     
 df = pd.read_csv("mlppa.csv")
 
