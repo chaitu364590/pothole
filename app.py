@@ -33,7 +33,7 @@ F4 = st.image([])
 
 
 while run:
-    camera = cv2.VideoCapture("8.mp4")
+    camera = cv2.VideoCapture("9.mp4")
     _, frame1 =camera.read()
     _, frame2= camera.read()
     frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
