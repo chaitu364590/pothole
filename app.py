@@ -7,8 +7,11 @@ import PIL
 import pandas as pd
 
 ## Page Title
-st.set_page_config(page_title = "Food Classification")
-st.title("FOOD CLASSIFICATION")
+#st.set_page_config(page_title = "Food Classification")
+#st.title("FOOD CLASSIFICATION")
+#st.markdown("------")
+st.set_page_config(page_title = "Calorie estimation")
+st.title("FOOD RECOGNITION & CALORIE ESTIMATION")
 st.markdown("------")
 
 
@@ -106,8 +109,9 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     #st.write(AreaofRectangle)
     # Find the class index of the current object
     class_id = int(obj['class_id'])
-    
+    n=57
     st.write(classes[class_id])
+    st.write("Estimated Calorie:"+57+"cal")
     #st.write(class_id)
     
 
