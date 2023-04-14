@@ -109,7 +109,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     #st.write(AreaofRectangle)
     # Find the class index of the current object
     class_id = int(obj['class_id'])
-    n=155
+    n=39
     st.write(classes[class_id])
     st.write("Estimated Calorie:",n)
     #st.write(class_id)
