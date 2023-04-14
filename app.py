@@ -5,97 +5,19 @@ import os
 import numpy as np
 import PIL
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
- 
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 ## Page Title
-#st.set_page_config(page_title = "Cats vs Dogs Image Classification")
-st.title("POTHOLE DETECTION")
-st.markdown("---")
-#st.caption('HOSTED BY CHAITANYA 201801330017')
-
-model_path='pothole.tflite'
-st.title("Webcam Live Feed")
-run = st.checkbox('Run')
-FRAME_WINDOW = st.image([])
-F1 = st.image([])
-F2 = st.image([])
-F3 = st.image([])
-F4 = st.image([])
+st.set_page_config(page_title = "Food Classification")
+st.title("FOOD CLASSIFICATION")
+st.markdown("------")
 
 
-while run:
-    camera = cv2.VideoCapture("8.mp4")
-    _, frame1 =camera.read()
-    _, frame2= camera.read()
-    frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
-    
-    FRAME_WINDOW.image(frame1)
-    diff = cv2.absdiff(frame1, frame2)
-    gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (9, 9), 0)
-    edges = cv2.Canny(blur, threshold1=30, threshold2=150)
-    _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
-    dilated = cv2.dilate(thresh, None, iterations=3)
-    contours, _ = cv2.findContours(dilated,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    for contour in contours:
-        (x, y, w, h) = cv2.boundingRect(contour)
-        area = cv2.contourArea(contour)
-        pothole = area
-        if cv2.contourArea(contour) < 10000:
-            continue
-        cv2.rectangle(frame1, (x, y), (x+w, y+h), (0 ,255, 0), 2)
-        cv2.approxPolyDP(contour,0.01*cv2.arcLength(contour,True),True)
-        print('pothole',round(pothole,2))
-        cv2.putText(frame1, f'pothole:{pothole}', (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-        #cv2.putText(frame1, "Status : {}".format('potholes'), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-        #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
-        #print("Number of contours in image:",len(contours))
-        #st.image("dilated", dilated)
-        F4.image(dilated)   
-    F1.image(frame1)
-    F2.image(thresh)
-    F3.image(edges)
-    frame1=frame2
-    ret, frame2=camera.read()
-    
-df = pd.read_csv("mlppa.csv")
-
-y = df['Impulse'].values.reshape(-1, 1)
-X = df['Area'].values.reshape(-1, 1)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
-SEED = 42
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = SEED)
-regressor = LinearRegression()
-regressor.fit(X_train, y_train)
-def calc(slope, intercept, Area):
-    return slope*Area+intercept
-
-score = calc(regressor.coef_, regressor.intercept_, 9.5)
-
-score = regressor.predict([[9.5]])
-
-y_pred = regressor.predict(X_test)
-
-mae = mean_absolute_error(y_test, y_pred)
-mse = mean_squared_error(y_test, y_pred)
-rmse = np.sqrt(mse)
-print(f'Mean absolute error: {mae:.2f}')
-print(f'Mean squared error: {mse:.2f}')
-print(f'Root mean squared error: {rmse:.2f}')
+model_path="foodc.tflite"
 
 
 
 # Load the labels into a list
-classes = ['pothole', 'road_with_cracks','pothole_with_water','pothle with water','pothole with water','pothole_with_ water','pothole _with_ water','pohole with water','group of potholes','group_of_potholes','Marked_Speedbreaker','Unmarked_Speedbreaker','cracks']
+classes = [ 'dal_makhani','dhokla','fried_rice','idli','jalebi','kaathi_rolls','kadai_panner','masala_dosa','kulfi','pizza','samosa','.']
 #label_map = model.model_spec.config.label_map
 #for label_id, label_name in label_map.as_dict().items():
  # classes[label_id-1] = label_name
@@ -172,6 +94,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
   for obj in results:
     # Convert the object bounding box from relative coordinates to absolute 
     # coordinates based on the original image resolution
+    #x,y,w,h = cv2.boundingRect(cnt)
     ymin, xmin, ymax, xmax = obj['bounding_box']
     xmin = int(xmin * original_image_np.shape[1])
     xmax = int(xmax * original_image_np.shape[1])
@@ -179,90 +102,14 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     ymax = int(ymax * original_image_np.shape[0])
     w=xmax-xmin
     h=ymax-ymin
+    
+    #st.write(AreaofRectangle)
     # Find the class index of the current object
     class_id = int(obj['class_id'])
+    
     st.write(classes[class_id])
-    #st.write(classes)
     #st.write(class_id)
-    if class_id==0:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==2:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==3:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==4:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==5:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==6:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    elif class_id==7:
-        Area = w * h
-        Area=Area/240
-        st.write("Area of a POTHOLE is: %.2f" %Area)
-        W = np.array([[Area]])
-        W = W.astype(float)
-        
-        AREA = regressor.predict(W)
-        st.subheader("The estimated AREA is :")
-        st.write(AREA)
-        st.markdown("__________________________")
-    else:
-        print("jkdfn")
+    
 
     # Draw the bounding box and label on the image
     color = [int(c) for c in COLORS[class_id]]
@@ -274,16 +121,16 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
         cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
   # Return the final image
-  original_uint8 = original_image_np.astype(np.uint8)
+  original_uint8 = original_image_np.astype(np.uint8)  
   return original_uint8
 
 
 ## Input Fields
 uploaded_file = st.file_uploader("Upload a Image", type=["jpg","png", 'jpeg'])
 if uploaded_file is not None:
-    with open(os.path.join("/tmp",uploaded_file.name),"wb") as f:
+    with open(os.path.join("C:/Users/lenovo/Downloads",uploaded_file.name),"wb") as f:
         f.write(uploaded_file.getbuffer())
-    path = os.path.join("/tmp",uploaded_file.name)
+    path = os.path.join("C:/Users/lenovo/Downloads",uploaded_file.name)
     URL =path
     DETECTION_THRESHOLD = 0.3
 
@@ -298,14 +145,10 @@ if uploaded_file is not None:
         threshold=DETECTION_THRESHOLD
     )
 
-    # Show the detection resulthgf
+    # Show the detection result
     st.image(detection_result_image)
-    
-    
 
  
-
-
 
 
 
