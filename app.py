@@ -111,7 +111,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     class_id = int(obj['class_id'])
     n=57
     st.write(classes[class_id])
-    st.write("Estimated Calorie:"+57+"cal")
+    st.write("Estimated Calorie:"+n+"cal")
     #st.write(class_id)
     
 
