@@ -7,12 +7,12 @@ import PIL
 import pandas as pd
 
 ## Page Title
-#st.set_page_config(page_title = "Food Classification")
-#st.title("FOOD CLASSIFICATION")
-#st.markdown("------")
-st.set_page_config(page_title = "Calorie estimation")
-st.title("FOOD RECOGNITION & CALORIE ESTIMATION")
+st.set_page_config(page_title = "Food Classification")
+st.title("FOOD CLASSIFICATION")
 st.markdown("------")
+#st.set_page_config(page_title = "Calorie estimation")
+#st.title("FOOD RECOGNITION & CALORIE ESTIMATION")
+#st.markdown("------")
 
 
 model_path="foodc.tflite"
@@ -109,9 +109,9 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     #st.write(AreaofRectangle)
     # Find the class index of the current object
     class_id = int(obj['class_id'])
-    n=39
+    #n=39
     st.write(classes[class_id])
-    st.write("Estimated Calorie:",n)
+    #st.write("Estimated Calorie:",n)
     #st.write(class_id)
     
 
