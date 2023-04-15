@@ -118,22 +118,22 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.3):
     st.info(classes[class_id])
     
     if class_id==0:
-        st.success("Estimated Calorie:",n)
+        st.write("Estimated Calorie:",n)
         st.markdown("__________________________")
     elif class_id==1:
-        st.success("Estimated Calorie:",m)
+        st.write("Estimated Calorie:",m)
         st.markdown("__________________________")
     elif class_id==2:
-        st.success("Estimated Calorie:",o)
+        st.write("Estimated Calorie:",o)
         st.markdown("__________________________")
     elif class_id==3:
-        st.success("Estimated Calorie:",p)
+        st.write("Estimated Calorie:",p)
         st.markdown("__________________________")
     elif class_id==4:
-        st.success("Estimated Calorie:",q)
+        st.write("Estimated Calorie:",q)
         st.markdown("__________________________")
     elif class_id==5:
-        st.success("Estimated Calorie:",r)
+        st.write("Estimated Calorie:",r)
         st.markdown("__________________________")
     #st.write("Estimated Calorie:",n)
     #st.write(class_id)
